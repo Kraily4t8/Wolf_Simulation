@@ -36,6 +36,7 @@ function Circle(game, prey) {
         this.velocity.x *= ratio;
         this.velocity.y *= ratio;
     }
+
 };
 
 Circle.prototype.collide = function (other) {
