@@ -6,11 +6,13 @@ ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
 
+    //prey
 	var circle;
     for (var i = 0; i < 50; i++) {
         circle = new Circle(gameEngine, true);
         gameEngine.addEntity(circle);
     }
+    //predator
     for (var i = 0; i < 5; i++) {
         circle = new Circle(gameEngine, false);
         gameEngine.addEntity(circle);
