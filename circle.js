@@ -2,7 +2,9 @@ function Circle(game, prey) {
     this.game = game;
     this.radius = 3;
     this.prey = prey;
-    this.coWeight = parseFloat(document.getElementById("coh_weight").value);
+    this.preyCoWeight = parseFloat(document.getElementById("preyCoh_weight").value);
+    this.predCoWeight = parseFloat(document.getElementById("predCoh_weight").value);
+
     this.alWeight = parseFloat(document.getElementById("ali_weight").value);
     this.seWeight = parseFloat(document.getElementById("sep_weight").value);
     this.fleeWeight = parseFloat(document.getElementById("fle_weight").value);
@@ -60,7 +62,9 @@ Circle.prototype.collideBottom = function () {
 };
 
 Circle.prototype.update = function () {
-    this.coWeight = parseFloat(document.getElementById("coh_weight").value);
+    this.preyCoWeight = parseFloat(document.getElementById("preyCoh_weight").value);
+    this.predCoWeight = parseFloat(document.getElementById("predCoh_weight").value);
+
     this.alWeight = parseFloat(document.getElementById("ali_weight").value);
     this.seWeight = parseFloat(document.getElementById("sep_weight").value);
     this.fleeWeight = parseFloat(document.getElementById("fle_weight").value);
@@ -88,7 +92,10 @@ Circle.prototype.update = function () {
         document.getElementById('PredatorDecay').innerHTML = "Predator decay: " + this.decay;    
     }
     document.getElementById('Endurance').innerHTML = "Endurance: " + this.endurance;
-    document.getElementById('coWeight').innerHTML = "Cohesion weight: " + this.coWeight;
+    
+    document.getElementById('preyCoh_weight').innerHTML = "Prey Cohesion weight: " + this.preyCoWeight;
+    document.getElementById('predCoh_weight').innerHTML = "Predator Cohesion weight: " + this.predCoWeight;
+
     document.getElementById('alWeight').innerHTML = "Alignment weight: " + this.alWeight;
     document.getElementById('seWeight').innerHTML = "Separation weight: " + this.seWeight;
     document.getElementById('fleeWeight').innerHTML = "Flee weight: " + this.fleeWeight;
@@ -179,8 +186,15 @@ Circle.prototype.update = function () {
         var difX = (cohesion.x - this.x) / dist;
         var difY = (cohesion.y - this.y) / dist;
 
-        this.velocity.x += difX * this.coWeight;
-        this.velocity.y += difY * this.coWeight;
+        var cohesionWeight = 1;
+        if(this.prey) {
+            cohesionWeight = this.preyCoWeight;
+        } else {
+            cohesionWeight = this.predCoWeight;
+        }
+
+        this.velocity.x += difX * cohesionWeight;
+        this.velocity.y += difY * cohesionWeight;
     }
 
     // apply alignment
