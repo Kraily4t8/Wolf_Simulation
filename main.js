@@ -22,7 +22,25 @@ ASSET_MANAGER.downloadAll(() => {
     gameEngine.weakened.MaxSpeed *= 0.70;
     gameEngine.weakened.color = "teal";
 
+    document.getElementById("reset").addEventListener("click", () => {
+        reset();
+	});
 	gameEngine.init(ctx);
-
 	gameEngine.start();
 });
+
+
+function reset() {
+    for (var i = 0; i < gameEngine.entities.length; i++) {
+        gameEngine.entities[i].removeFromWorld = true;
+    }
+
+    for (var i = 0; i < 50; i++) {
+        circle = new Circle(gameEngine, true);
+        gameEngine.addEntity(circle);
+    }
+    for (var i = 0; i < 5; i++) {
+        circle = new Circle(gameEngine, false);
+        gameEngine.addEntity(circle);
+    }
+}

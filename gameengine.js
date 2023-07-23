@@ -80,6 +80,9 @@ class GameEngine {
         this.entities.push(entity);
     };
 
+    removeFromWorld(entity) {
+        entity.removeFromWorld = true;
+    }
     draw() {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);

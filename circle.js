@@ -2,28 +2,28 @@ function Circle(game, prey) {
     this.game = game;
     this.radius = 3;
     this.prey = prey;
-    this.coWeight = 0.25;
-    this.alWeight = 0.075;
-    this.seWeight = 25;
-    this.fleeWeight = 10000;
-    this.endurance = 1.33;
+    this.coWeight = parseFloat(document.getElementById("coh_weight").value);
+    this.alWeight = parseFloat(document.getElementById("ali_weight").value);
+    this.seWeight = parseFloat(document.getElementById("sep_weight").value);
+    this.fleeWeight = parseFloat(document.getElementById("fle_weight").value);
+    this.endurance = parseFloat(document.getElementById("endu").value);
     if (this.prey) {
-        this.visualRadius = 100;
-        this.MaxSpeed = 22.2;
+        this.visualRadius = parseFloat(document.getElementById("prey_radius").value);
+        this.MaxSpeed = parseFloat(document.getElementById("prey_max_speed").value);
         this.maxSpeed = this.MaxSpeed;
-        this.decay = 0.982;
-        this.minSpeed = 1.39;
+        this.decay = parseFloat(document.getElementById("prey_decay").value, 10);
+        this.minSpeed = parseFloat(document.getElementById("prey_min_speed").value);
         this.color = "White";
         this.x = 375 + Math.random() * 50;
         this.y = 650 + Math.random() * 50;
         var bit = { x: Math.floor(Math.random() * 2), y: Math.floor(Math.random() * 2) };
         this.velocity = { x: Math.pow(-1, bit.x) * Math.random() * 1000, y: Math.pow(-1, bit.y) * Math.random() * 1000 };
     } else {
-        this.visualRadius = 150;
-        this.MaxSpeed = 17.78;
+        this.visualRadius = parseFloat(document.getElementById("predator_radius").value);
+        this.MaxSpeed = parseFloat(document.getElementById("predator_max_speed").value);
         this.maxSpeed = this.MaxSpeed;
-        this.decay = 0.987;
-        this.minSpeed = 2.2;
+        this.decay = parseFloat(document.getElementById("predator_decay").value);
+        this.minSpeed = parseFloat(document.getElementById("predator_min_speed").value);
         this.color = "Red";
         this.x = 390 + Math.random() * 20
         this.y = 780 + Math.random() * 20 - this.radius;
@@ -36,6 +36,7 @@ function Circle(game, prey) {
         this.velocity.x *= ratio;
         this.velocity.y *= ratio;
     }
+
 };
 
 Circle.prototype.collide = function (other) {
@@ -59,6 +60,38 @@ Circle.prototype.collideBottom = function () {
 };
 
 Circle.prototype.update = function () {
+    this.coWeight = parseFloat(document.getElementById("coh_weight").value);
+    this.alWeight = parseFloat(document.getElementById("ali_weight").value);
+    this.seWeight = parseFloat(document.getElementById("sep_weight").value);
+    this.fleeWeight = parseFloat(document.getElementById("fle_weight").value);
+    this.endurance = parseFloat(document.getElementById("endu").value);
+    // update variables
+    if (this.prey) {
+        this.visualRadius = parseFloat(document.getElementById("prey_radius").value);
+        this.MaxSpeed = parseFloat(document.getElementById("prey_max_speed").value);
+        this.maxSpeed = this.MaxSpeed;
+        this.decay = parseFloat(document.getElementById("prey_decay").value, 10);
+        this.minSpeed = parseFloat(document.getElementById("prey_min_speed").value);
+        document.getElementById('PreyRadius').innerHTML = "Prey radius: " + this.visualRadius;
+        document.getElementById('PreyMaxSpeed').innerHTML = "Prey max speed: " + this.MaxSpeed;
+        document.getElementById('PreyMinSpeed').innerHTML = "Prey min speed: " + this.minSpeed;
+        document.getElementById('PreyDecay').innerHTML = "Prey decay: " + this.decay;
+    } else {
+        this.visualRadius = parseFloat(document.getElementById("predator_radius").value);
+        this.MaxSpeed = parseFloat(document.getElementById("predator_max_speed").value);
+        this.maxSpeed = this.MaxSpeed;
+        this.decay = parseFloat(document.getElementById("predator_decay").value);
+        this.minSpeed = parseFloat(document.getElementById("predator_min_speed").value);
+        document.getElementById('PredatorRadius').innerHTML = "Predator radius: " + this.visualRadius;
+        document.getElementById('PredatorMaxSpeed').innerHTML = "Predator max speed: " + this.MaxSpeed;
+        document.getElementById('PredatorMinSpeed').innerHTML = "Predator min speed: " + this.minSpeed;
+        document.getElementById('PredatorDecay').innerHTML = "Predator decay: " + this.decay;    
+    }
+    document.getElementById('Endurance').innerHTML = "Endurance: " + this.endurance;
+    document.getElementById('coWeight').innerHTML = "Cohesion weight: " + this.coWeight;
+    document.getElementById('alWeight').innerHTML = "Alignment weight: " + this.alWeight;
+    document.getElementById('seWeight').innerHTML = "Separation weight: " + this.seWeight;
+    document.getElementById('fleeWeight').innerHTML = "Flee weight: " + this.fleeWeight;
     
     // update max speed
     this.maxSpeed = Math.max(this.minSpeed, this.MaxSpeed * Math.min(this.endurance, 1));
