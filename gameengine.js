@@ -19,6 +19,8 @@ class GameEngine {
         this.options = options || {
             debugging: false,
         };
+
+        this.ticks = 0;
     };
 
     init(ctx) {
@@ -41,7 +43,7 @@ class GameEngine {
             x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
             y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
         });
-        
+
         this.ctx.canvas.addEventListener("mousemove", e => {
             if (this.options.debugging) {
                 console.log("MOUSE_MOVE", getXandY(e));
@@ -91,10 +93,14 @@ class GameEngine {
         for (let i = this.entities.length - 1; i >= 0; i--) {
             this.entities[i].draw(this.ctx, this);
         }
+
+        document.getElementById('ticks').innerHTML = 'Ticks: ' + this.ticks;
     };
 
     update() {
         let entitiesCount = this.entities.length;
+
+        this.ticks++;
 
         for (let i = 0; i < entitiesCount; i++) {
             let entity = this.entities[i];

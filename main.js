@@ -3,10 +3,10 @@ const gameEngine = new GameEngine();
 const ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.downloadAll(() => {
-	const canvas = document.getElementById("gameWorld");
-	const ctx = canvas.getContext("2d");
+    const canvas = document.getElementById("gameWorld");
+    const ctx = canvas.getContext("2d");
 
-	var circle;
+    var circle;
     for (var i = 0; i < 50; i++) {
         circle = new Circle(gameEngine, true);
         gameEngine.addEntity(circle);
@@ -22,16 +22,15 @@ ASSET_MANAGER.downloadAll(() => {
 
     document.getElementById("reset").addEventListener("click", () => {
         reset();
-	});
-	gameEngine.init(ctx);
-	gameEngine.start();
+    });
+    gameEngine.init(ctx);
+    gameEngine.start();
 });
 
-
 function reset() {
-    for (var i = 0; i < gameEngine.entities.length; i++) {
-        gameEngine.entities[i].removeFromWorld = true;
-    }
+    gameEngine.entities = [];
+
+    gameEngine.ticks = 0;
 
     for (var i = 0; i < 50; i++) {
         circle = new Circle(gameEngine, true);
@@ -41,4 +40,9 @@ function reset() {
         circle = new Circle(gameEngine, false);
         gameEngine.addEntity(circle);
     }
+
+    gameEngine.weakened = gameEngine.entities[0];
+    gameEngine.weakened.debug = true;
+    gameEngine.weakened.MaxSpeed *= 0.70;
+    gameEngine.weakened.color = "teal";
 }
