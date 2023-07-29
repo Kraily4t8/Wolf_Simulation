@@ -106,7 +106,7 @@ function startSim() {
         }
 
         var runTypeInput = document.getElementById("typeInput").value;
-        if (targetTickInput == '') {
+        if (runTypeInput == '') {
             console.log('Invalid type input');
             return;
         }
