@@ -6,6 +6,7 @@ The simulation has been updated to include multiple sliders for adjusting behavi
 # Data Collection Mode
 It is possible to upload data to the database by following these instructions:
 * Enter values:
+    * Run Type: How to categorize the run in the database for future retrieval.
     * Run Count: How many runs to do with the same settings. Value must be >= 1.
     * Target Tick: What tick to end the simulation at, inclusive. Value must be >= 100.
 * Set slider values to desired positions.
@@ -46,6 +47,9 @@ To retrieve data from the database, enter values in each field to find matching 
 *Verbose Console* puts out slightly formatted versions of the data into the console, for manual viewing when *Get Data* is run.
 
 *Download* only works after *Get Data* has been run at least once, and downloads the previous results from *Get Data* as a JSON file named data.json.
+
+# Known Issues
+* Sometimes the simulation will "stick" on first run or behave oddly. Refreshing the page will fix it.
 
 # Resources
 * <a href="https://github.com/algorithm0r/WolfPack">WolfPack</a>: Base simulation this project forks from.

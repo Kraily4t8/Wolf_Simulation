@@ -105,10 +105,17 @@ function startSim() {
             return;
         }
 
+        var runTypeInput = document.getElementById("typeInput").value;
+        if (targetTickInput == '') {
+            console.log('Invalid type input');
+            return;
+        }
+
         //turn on data collection mode
         params.simMode = true; //ensure sim mode is on
         params.runTarget = runCountInput;
         params.tickTarget = targetTickInput;
+        params.runType = runTypeInput;
         params.runCount = 0;
 
         //setup socket stuff if not previously performed
@@ -165,7 +172,7 @@ function simUpload() {
         db: "tcss435",
         collection: "red3",
         data: {
-            runType: 'badTest',
+            runType: params.runType,
             runNumber: params.runCount,
             sliders: params.slider,
             preyList: params.isPrey,
