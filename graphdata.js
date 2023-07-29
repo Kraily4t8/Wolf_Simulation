@@ -18,31 +18,39 @@ function calculateDistance(point1, point2) {
 }
 
 // INCORRECT: Function for finding average minimum distances.
+//*check distance between wolf and closest sheep
 function findAverageMinimumDistances(data) {
     const distances = [];
 
     data.forEach(run => {
-        const { preyList, positions } = run;
+        const {preyList, positions} = run;
         const preyCount = preyList.filter(Boolean).length;
         const predatorCount = preyList.length - preyCount;
 
         if (preyCount === 0 || predatorCount === 0) return;
 
         const minDistances = [];
+        
+        for(let i = 0; i < 50; i++){
+            //for each prey
+            positions[i].forEach(prey => {
+                let minDistance = Number.MAX_VALUE;
 
-        positions[0].forEach(prey => {
-            let minDistance = Number.MAX_VALUE;
-
-            positions.slice(1).forEach(predators => {
-                predators.forEach(predator => {
-                    const distance = calculateDistance(prey, predator);
-                    minDistance = Math.min(minDistance, distance);
+                //index 50 to 54 are predators
+                //for each of the 5 predators
+                positions.slice(50).forEach(predators => {
+                    //confusing
+                    predators.forEach(predator => {
+                        const distance = calculateDistance(prey, predator);
+                        minDistance = Math.min(minDistance, distance);
+                    });
                 });
+
+                minDistances.push(minDistance);
             });
+        }
 
-            minDistances.push(minDistance);
-        });
-
+        //reduce uses a callback funciton, need further assistance to understand
         const averageMinDistance = minDistances.reduce((acc, val) => acc + val, 0) / minDistances.length;
         distances.push(averageMinDistance);
     });
