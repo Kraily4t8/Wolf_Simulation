@@ -12,6 +12,9 @@
   <script type="text/javascript" src="./circle.js"></script>
   <script type="text/javascript" src="./main.js"></script>
 
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.1/socket.io.js">
+  </script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -37,6 +40,15 @@
   <canvas id="gameWorld" width="1024" height="768" style="background: black; border: 1px solid black" tabindex="0"
     autofocus></canvas>
   <div><button type="button" id="reset" class="button">Reset</button>
+    <button type="button" id="start_sim" class="button">DataSim</button>
+    <label for="numberInput">Run Count:</label>
+    <input type="text" id="numberInput" style="width: 50px;" />
+    <label for="tickTarget">Target Tick:</label>
+    <input type="text" id="tickTarget" style="width: 50px;" />
+    <label for="freezeDisplay">
+      <input type="checkbox" id="freezeDisplay">
+      Freeze Visual &nbsp;&nbsp;|
+    </label>
     &nbsp;
     <span id="ticks">Ticks: 0</span>
   </div>
