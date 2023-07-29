@@ -28,6 +28,22 @@ ASSET_MANAGER.downloadAll(() => {
         startSim();
     });
 
+    document.getElementById("getData").addEventListener("click", () => {
+        if (!params.dbConnectSuccess) {
+            databaseConnectSetup();
+        }
+        getDataFromDB();
+    });
+
+    document.getElementById("dlData").addEventListener("click", () => {
+        if (params.lastDBResponse) {
+            console.log('Preparing download.');
+            downloadObjectAsJSON("data.json");
+        } else {
+            console.log('No data to download');
+        }
+    });
+
     gameEngine.init(ctx);
     gameEngine.start();
 });
@@ -60,11 +76,11 @@ function reset() {
  */
 function databaseConnectSetup() {
     socket = io.connect('http://73.225.31.4:8888'); //connect out
-    
-    // socket.on("find", function (array) {
-    //     if (array.length > 0) parseData(array);
-    //     else console.log("Empty data.");
-    // });
+
+    socket.on("find", function (array) {
+        if (array.length > 0) parseResponse(array);
+        else console.log("Empty data.");
+    });
 
     params.dbConnectSuccess = true; //log that we've successfully connected
 }
@@ -149,7 +165,7 @@ function simUpload() {
         db: "tcss435",
         collection: "red3",
         data: {
-            runType: 'test',
+            runType: 'badTest',
             runNumber: params.runCount,
             sliders: params.slider,
             preyList: params.isPrey,
@@ -184,7 +200,7 @@ function printData(data) {
 
 function printPosData(positions) {
     for (let i = 0; i < positions.length; i++) {
-        var thisLine = 'i:'+i+': ';
+        var thisLine = 'i:' + i + ': ';
         for (let j = 0; j < positions[i].length; j++) {
             thisLine += '{' + posDataGet(positions[i][j]) + '}, ';
         }
@@ -194,4 +210,95 @@ function printPosData(positions) {
 
 function posDataGet(obj) {
     return ('x: ' + obj.x + ', y: ' + obj.y);
+}
+
+/**
+ * Parse server response of data.
+ * @param {array} array 
+ */
+function parseResponse(array) {
+    console.log('Server has responded to query.');
+    if (array.length == 0) {
+        console.log('Response array was empty, no data to parse.');
+    }
+
+    console.log('Raw Response:');
+    console.log(array); //raw response from server
+
+    if (document.getElementById('verboseResponse').checked) {
+        console.log('Parsed Response:');
+        for (let i = 0; i < array.length; i++) {
+            console.log('Data from result ' + i);
+            printDataDB(array[i]);
+        }
+    }
+
+    params.lastDBResponse = array;
+}
+
+/**
+ * Print data from server response.
+ * @param {array} data 
+ */
+function printDataDB(data) {
+    console.log('run type: ' + data.runType);
+    console.log('run number: ' + data.runNumber);
+    console.log('cohesion slider: ' + data.sliders.cohesion);
+    console.log('alignment slider: ' + data.sliders.alignment);
+    console.log('separation slider: ' + data.sliders.separation);
+    console.log('prey list: ' + data.preyList);
+    console.log('entity position data:');
+    printPosDataDB(data.positions);
+}
+
+function printPosDataDB(positions) {
+    for (let i = 0; i < positions.length; i++) {
+        var thisLine = 'i:' + i + ': ';
+        for (let j = 0; j < positions[i].length; j++) {
+            thisLine += '{' + posDataGet(positions[i][j]) + '}, ';
+        }
+        console.log(thisLine);
+    }
+}
+
+/**
+ * Call to DB to get data matching sliders.
+ */
+function getDataFromDB() {
+    var runTypeQuery = document.getElementById("getRunType").value;
+    var cohesionQuery = parseFloat(document.getElementById("getCohesionVal").value);
+    var alignmentQuery = parseFloat(document.getElementById("getAlignmentVal").value);
+    var separationQuery = parseFloat(document.getElementById("getSeparationVal").value);
+
+    console.log('Attempting to contact server for data matching query.');
+
+    socket.emit("find",
+        {
+            db: "tcss435",
+            collection: "red3",
+            query: {
+                "runType": runTypeQuery,
+                "sliders.cohesion": cohesionQuery,
+                "sliders.alignment": alignmentQuery,
+                "sliders.separation": separationQuery
+            }
+        });
+}
+
+/**
+ * Download last server response as JSON.
+ * @param {JSON} fileName 
+ */
+function downloadObjectAsJSON(fileName) {
+    const jsonContent = JSON.stringify(params.lastDBResponse);
+    const blob = new Blob([jsonContent], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    a.click();
+
+    // Clean up the URL object to free up resources
+    URL.revokeObjectURL(url);
 }

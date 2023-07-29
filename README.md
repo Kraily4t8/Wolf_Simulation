@@ -24,10 +24,14 @@ The shape of data recorded and uploaded is as follows:
         collection: "red3",
         data: {
             runType: 'test',
-            runNumber: params.runCount, //integer of which run is being uploaded
-            sliders: params.slider, //values of the alignment, cohesion, and separation sliders
-            preyList: params.isPrey, //a list of which entities are prey (true) or predator (false)
-            positions: params.posData //2d list containing JSON marking x and y positions of each entity
+            //integer of which run is being uploaded
+            runNumber: params.runCount,
+            //values of the alignment, cohesion, and separation sliders
+            sliders: params.slider,
+            //a list of which entities are prey (true) or predator (false)
+            preyList: params.isPrey,
+            //2D list containing JSON marking x and y positions of each entity
+            positions: params.posData
         }
     };
 ```
@@ -35,6 +39,13 @@ The shape of data recorded and uploaded is as follows:
 Notes:
 * For examples on how to interact with the data shape, basic interaction with the data can be seen in the print functions at the end of *main*.
 * If run through a website instead of locally, it's likely the server connection will fail.
+
+# Data Retrieval
+To retrieve data from the database, enter values in each field to find matching data and click *Get Data*.
+
+*Verbose Console* puts out slightly formatted versions of the data into the console, for manual viewing when *Get Data* is run.
+
+*Download* only works after *Get Data* has been run at least once, and downloads the previous results from *Get Data* as a JSON file named data.json.
 
 # Resources
 * <a href="https://github.com/algorithm0r/WolfPack">WolfPack</a>: Base simulation this project forks from.
