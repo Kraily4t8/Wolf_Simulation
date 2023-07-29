@@ -86,6 +86,10 @@ class GameEngine {
         entity.removeFromWorld = true;
     }
     draw() {
+        if (document.getElementById('freezeDisplay').checked) {
+            document.getElementById('ticks').innerHTML = 'Ticks: ' + this.ticks;
+            return;
+        }
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
@@ -98,9 +102,13 @@ class GameEngine {
     };
 
     update() {
-        let entitiesCount = this.entities.length;
-
         this.ticks++;
+
+        if (params.simMode) {
+            this.simUpdate();
+        }
+
+        let entitiesCount = this.entities.length;
 
         for (let i = 0; i < entitiesCount; i++) {
             let entity = this.entities[i];
@@ -113,6 +121,41 @@ class GameEngine {
         for (let i = this.entities.length - 1; i >= 0; --i) {
             if (this.entities[i].removeFromWorld) {
                 this.entities.splice(i, 1);
+            }
+        }
+    };
+
+    /**
+     * Extra update funcationality during data collection runs.
+     */
+    simUpdate() {
+        //only take data every 100 ticks
+        if (this.ticks % 100 == 1) {
+            var j = params.insertCol
+            //record positions
+            for (let i = 0; i < this.entities.length; i++) {
+                params.posData[i][j] = {
+                    // prey: this.entities[i].prey,
+                    x: this.entities[i].x,
+                    y: this.entities[i].y
+                }
+            }
+            // debugDisp(params.posData[0])
+            params.insertCol++; //move cursor forward
+        }
+
+        //on last update, upload data, reset
+        if (this.ticks > params.tickTarget) {
+            //upload data
+            simUpload();
+
+            //reset
+            if (params.runCount < params.runTarget - 1) {
+                startSim();
+            } else {
+                console.log('Runs complete');
+                params.simMode = false;
+                reset();
             }
         }
     };
