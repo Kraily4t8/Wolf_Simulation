@@ -96,7 +96,7 @@ function startSim() {
         params.runCount = 0;
 
         //setup socket stuff if not previously performed
-        if (!params.dbConnectSuccess) {
+        if (!params.dbConnectSuccess && document.getElementById('useDB').checked) {
             databaseConnectSetup();
         }
 
@@ -157,42 +157,41 @@ function simUpload() {
         }
     };
 
-    //yeet
-    // socket.emit("insert", data);
-    printDataDebug(data);
+    //yeet, to console or DB
+    if (document.getElementById('useDB').checked) {
+        socket.emit("insert", data);
+    } else {
+        printData(data);
+    }
 }
 
 /**
- * Below are print functions for data to ensure shape is correct.
+ * Below are print functions for data which are used if DB is not used.
  * @param {params.posData} positions 
  */
-function printDataDebug(data) {
-    // console.log('data: ' + data.data.positions);
-    console.log('d: ' + data.db);
-    console.log('c: ' + data.collection);
-    console.log('da: ' + data.data);
-    console.log('rt: ' + data.data.runType);
-    console.log('rn: ' + data.data.runNumber);
-    console.log('sl: ' + data.data.sliders);
-    console.log('sl: ' + data.data.preyList);
-    testData(data.data.positions);
+function printData(data) {
+    console.log('database: ' + data.db);
+    console.log('collection: ' + data.collection);
+    console.log('run type: ' + data.data.runType);
+    console.log('run number: ' + data.data.runNumber);
+    console.log('cohesion slider: ' + data.data.sliders.cohesion);
+    console.log('alignment slider: ' + data.data.sliders.alignment);
+    console.log('separation slider: ' + data.data.sliders.separation);
+    console.log('prey list: ' + data.data.preyList);
+    console.log('entity position data:');
+    printPosData(data.data.positions);
 }
 
-function testData(positions) {
+function printPosData(positions) {
     for (let i = 0; i < positions.length; i++) {
         var thisLine = 'i:'+i+': ';
         for (let j = 0; j < positions[i].length; j++) {
-            thisLine += '{' + debugGet(positions[i][j]) + '}, ';
+            thisLine += '{' + posDataGet(positions[i][j]) + '}, ';
         }
         console.log(thisLine);
     }
 }
 
-function debugGet(obj) {
+function posDataGet(obj) {
     return ('x: ' + obj.x + ', y: ' + obj.y);
-}
-
-function debugDisp(obj) {
-    var j = params.insertCol;
-    console.log('x: ' + obj[j].x + ', y: ' + obj[j].y);
 }

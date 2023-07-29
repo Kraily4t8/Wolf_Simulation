@@ -6,15 +6,14 @@ The simulation has been updated to include multiple sliders for adjusting behavi
 # Data Collection Mode
 It is possible to upload data to the database by following these instructions:
 * Enter values:
-    * Run Count: How many runs to do with the same settings.
-    * Target Tick: What tick to end the simulation at, inclusive.
+    * Run Count: How many runs to do with the same settings. Value must be >= 1.
+    * Target Tick: What tick to end the simulation at, inclusive. Value must be >= 100.
 * Set slider values to desired positions.
 * Check the box for Freeze Visual if desired for compute power.
-* Click "DataSim".
+* Check the 'Use Database' box to upload results, or leave unchecked to print to console.
+* Click "DataSim" to start the data collection runs.
 
 The simulation will then run for the desired runs, to the ticks. Position data for each entity in the simulation will be recorded every 100 ticks, to be uploaded at the end. Some basic information is given in the console while this is running, to note what run number is currently in progress.
-
-There is a line at the end of *main.simUpload()* which is commented out, if uncommented the data from each run will also be displayed in the console.
 
 When the runs are complete, the simulation will revert to normal and perform a normal simulation without data collection enabled.
 
@@ -32,7 +31,10 @@ The shape of data recorded and uploaded is as follows:
         }
     };
 ```
-Basic interaction with the data can be seen in the debug print functions at the end of *main*.
+
+Notes:
+* For examples on how to interact with the data shape, basic interaction with the data can be seen in the print functions at the end of *main*.
+* If run through a website instead of locally, it's likely the server connection will fail.
 
 # Resources
 * <a href="https://github.com/algorithm0r/WolfPack">WolfPack</a>: Base simulation this project forks from.
