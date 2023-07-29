@@ -39,7 +39,9 @@
 <body>
   <canvas id="gameWorld" width="1024" height="768" style="background: black; border: 1px solid black" tabindex="0"
     autofocus></canvas>
-  <div><button type="button" id="reset" class="button">Reset</button>
+  <div>
+    <div id="UploadTitle">Data Collection Settings</div>
+    <button type="button" id="reset" class="button">Reset</button>
     <button type="button" id="start_sim" class="button">DataSim</button>
     <label for="typeInput">Run Type:</label>
     <input type="text" id="typeInput" style="width: 100px;" />
@@ -61,7 +63,9 @@
 
   <br>
 
-  <div><button type="button" id="dlData" class="button">Download</button>
+  <div>
+    <div id="DownloadTitle">Data Retrieval Settings</div>
+    <button type="button" id="dlData" class="button">Download</button>
     <button type="button" id="getData" class="button">Get Data</button>
     <label for="verboseResponse">
       <input type="checkbox" id="verboseResponse">
@@ -78,6 +82,7 @@
   </div>
 
   <br>
+  <div id="SettingsTitle">Simulation Settings</div>
 
   <div class="column">
     <div id="PreyStat">Prey Stats</div>
