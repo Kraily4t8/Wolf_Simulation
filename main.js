@@ -3,6 +3,37 @@ const gameEngine = new GameEngine();
 const ASSET_MANAGER = new AssetManager();
 
 ASSET_MANAGER.downloadAll(() => {
+
+    var path = window.location.pathname;
+    
+    document.getElementById("getData").addEventListener("click", () => {
+        if (!params.dbConnectSuccess) {
+            databaseConnectSetup();
+        }
+        getDataFromDB();
+    });
+
+    document.getElementById("dlData").addEventListener("click", () => {
+        if (params.lastDBResponse) {
+            console.log('Preparing download.');
+            downloadObjectAsJSON("data.json");
+        } else {
+            console.log('No data to download');
+        }
+    });
+
+    if (path.includes('graphs')) {
+        document.getElementById("graphData").addEventListener("click", () => {
+            if (params.lastDBResponse) {
+                console.log('Preparing graphs.');
+                graphResponse();
+            } else {
+                console.log('No data to graph');
+            }
+        });
+        return;
+    }
+
     const canvas = document.getElementById("gameWorld");
     const ctx = canvas.getContext("2d");
 
@@ -26,22 +57,6 @@ ASSET_MANAGER.downloadAll(() => {
 
     document.getElementById("start_sim").addEventListener("click", () => {
         startSim();
-    });
-
-    document.getElementById("getData").addEventListener("click", () => {
-        if (!params.dbConnectSuccess) {
-            databaseConnectSetup();
-        }
-        getDataFromDB();
-    });
-
-    document.getElementById("dlData").addEventListener("click", () => {
-        if (params.lastDBResponse) {
-            console.log('Preparing download.');
-            downloadObjectAsJSON("data.json");
-        } else {
-            console.log('No data to download');
-        }
     });
 
     gameEngine.init(ctx);
