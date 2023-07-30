@@ -26,7 +26,7 @@ function findAverageMinimumDistances(data) {
     //forEach of the 3 runs
     data.forEach(run => {
         const avgDistancesThisRun = [];
-        //console.log("Data length " + data.length); //data length 3
+
         const {preyList, positions} = run;
 
         const preyCount = preyList.filter(Boolean).length; //50
@@ -35,31 +35,6 @@ function findAverageMinimumDistances(data) {
         if (preyCount === 0 || predatorCount === 0) return;
 
         const minDistances = [];
-        //console.log("positions0 length " + positions[0].length); //251 measured ticks
-        //console.log("positions0 " + positions[0]); // the xy tuples of positions
-        //positions = each entity info, l = 55, 
-        //positions[0] = all positions recorded, l = 251
-        
-        //measuredTick tracking
-        
-        //original code
-        /*for(let i = 0; i < 50; i++){
-            //for each prey
-            positions[i].forEach(prey => {
-                let minDistance = Number.MAX_VALUE;
-
-                //index 50 to 54 are predators
-                //for each of the 5 predators
-                positions.slice(50).forEach(predators => {
-                    //for each predator, determine how far is the closest prey
-                    predators.forEach(predator => {
-                        const distance = calculateDistance(prey, predator);
-                        minDistance = Math.min(minDistance, distance);
-                    });
-                });
-                minDistances.push(minDistance);
-            });
-        }*/
 
         for (let measuredTick = 0; measuredTick < positions[0].length; measuredTick++) {
             let preyPosList = [];
