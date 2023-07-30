@@ -48,10 +48,18 @@ To retrieve data from the database, enter values in each field to find matching 
 
 *Download* only works after *Get Data* has been run at least once, and downloads the previous results from *Get Data* as a JSON file named data.json.
 
+# Graphing Data
+Graphing of data is available at the `/graphs` page. This only works when locally run as it depends on being able to communicate with the database. The method for data retrieval to then graph is the same as on the main page. The additional *Generate Graphs* button will generate four graphs based on the last retrieved data.
+* Average Minimum Distance: The average distance of the closest sheep to each wolf at each recorded time step.
+* Average Sheep Caught: The average number of sheep within 25 units of a wolf at each recorded time step.
+* Average Minimum Wolf Distance: The average of the minimum distances between wolves at each recorded time step.
+* Minimum Distance to Weakest Sheep: The average distance from the weakest sheep to the closest wolf at each recorded time step.
+
 # Known Issues
 * Sometimes the simulation will "stick" on first run or behave oddly. Refreshing the page will fix it.
 
 # Resources
 * <a href="https://github.com/algorithm0r/WolfPack">WolfPack</a>: Base simulation this project forks from.
+* Plot.ly: Graphing functionality.
 
 <img src="https://github.com/cat-milk/Anime-Girls-Holding-Programming-Books/blob/master/Javascript/Doma_Umaru_Java_Script_The_Good_Parts.png?raw=true" alt="Confusion">
