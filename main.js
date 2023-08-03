@@ -5,7 +5,6 @@ const gameEngine = new GameEngine();
  * Called automatically when window is finished loading.
  */
 function bindElements() {
-    console.log('got here s');
     //Common elements
     document.getElementById("getData").addEventListener("click", () => {
         if (!params.dbConnectSuccess) {
@@ -37,8 +36,7 @@ function bindElements() {
     }
 
     //Elements only in /index
-    if (window.location.pathname.includes('index')) {
-        console.log('got here i');
+    if (!window.location.pathname.includes('graphs')) {
         document.getElementById("reset").addEventListener("click", () => {
             reset();
         });
@@ -67,16 +65,13 @@ function bindElements() {
         gameEngine.init(ctx);
         gameEngine.start();
     }
-    console.log('got here e');
 }
 
 /**
  * Begin binding HTML elements once page is finished loading.
  */
 window.onload = () => {
-    console.log('got here b1');
     bindElements();
-    console.log('got here b2');
 };
 
 /**
