@@ -315,8 +315,7 @@ function getDataFromDB() {
                 "sliders.cohesion": cohesionQuery,
                 "sliders.alignment": alignmentQuery,
                 "sliders.separation": separationQuery,
-                
-            }
+            },
         }); //to limit runs received, add: "runNumber": { $lt: 8}
 }
 
