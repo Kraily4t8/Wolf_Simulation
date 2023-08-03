@@ -1,11 +1,11 @@
 const gameEngine = new GameEngine();
 
-const ASSET_MANAGER = new AssetManager();
-
-ASSET_MANAGER.downloadAll(() => {
-
-    var path = window.location.pathname;
-    
+/**
+ * Bind js to HTML elements, start game engine if necessary.
+ * Called automatically when window is finished loading.
+ */
+function bindElements() {
+    //Common elements
     document.getElementById("getData").addEventListener("click", () => {
         if (!params.dbConnectSuccess) {
             databaseConnectSetup();
@@ -22,7 +22,8 @@ ASSET_MANAGER.downloadAll(() => {
         }
     });
 
-    if (path.includes('graphs')) {
+    //Elements only in /graphs
+    if (window.location.pathname.includes('graphs')) {
         document.getElementById("graphData").addEventListener("click", () => {
             if (params.lastDBResponse) {
                 console.log('Preparing graphs.');
@@ -34,34 +35,44 @@ ASSET_MANAGER.downloadAll(() => {
         return;
     }
 
-    const canvas = document.getElementById("gameWorld");
-    const ctx = canvas.getContext("2d");
+    //Elements only in /index
+    if (window.location.pathname.includes('index')) {
+        document.getElementById("reset").addEventListener("click", () => {
+            reset();
+        });
 
-    var circle;
-    for (var i = 0; i < 50; i++) {
-        circle = new Circle(gameEngine, true);
-        gameEngine.addEntity(circle);
+        document.getElementById("start_sim").addEventListener("click", () => {
+            startSim();
+        });
+
+        const canvas = document.getElementById("gameWorld");
+        const ctx = canvas.getContext("2d");
+
+        var circle;
+        for (var i = 0; i < 50; i++) {
+            circle = new Circle(gameEngine, true);
+            gameEngine.addEntity(circle);
+        }
+        for (var i = 0; i < 5; i++) {
+            circle = new Circle(gameEngine, false);
+            gameEngine.addEntity(circle);
+        }
+        gameEngine.weakened = gameEngine.entities[0];
+        gameEngine.weakened.debug = true;
+        gameEngine.weakened.MaxSpeed *= 0.70;
+        gameEngine.weakened.color = "teal";
+
+        gameEngine.init(ctx);
+        gameEngine.start();
     }
-    for (var i = 0; i < 5; i++) {
-        circle = new Circle(gameEngine, false);
-        gameEngine.addEntity(circle);
-    }
-    gameEngine.weakened = gameEngine.entities[0];
-    gameEngine.weakened.debug = true;
-    gameEngine.weakened.MaxSpeed *= 0.70;
-    gameEngine.weakened.color = "teal";
+}
 
-    document.getElementById("reset").addEventListener("click", () => {
-        reset();
-    });
-
-    document.getElementById("start_sim").addEventListener("click", () => {
-        startSim();
-    });
-
-    gameEngine.init(ctx);
-    gameEngine.start();
-});
+/**
+ * Begin binding HTML elements once page is finished loading.
+ */
+window.onload = () => {
+    bindElements();
+};
 
 /**
  * Start simulation without hooks for data collection.
@@ -246,6 +257,7 @@ function parseResponse(array) {
 
     console.log('Raw Response:');
     console.log(array); //raw response from server
+    console.log(JSON.stringify(array).length);
 
     if (document.getElementById('verboseResponse').checked) {
         console.log('Parsed Response:');
@@ -302,9 +314,10 @@ function getDataFromDB() {
                 "runType": runTypeQuery,
                 "sliders.cohesion": cohesionQuery,
                 "sliders.alignment": alignmentQuery,
-                "sliders.separation": separationQuery
+                "sliders.separation": separationQuery,
+                
             }
-        });
+        }); //to limit runs received, add: "runNumber": { $lt: 8}
 }
 
 /**
