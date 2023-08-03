@@ -44,27 +44,32 @@ function bindElements() {
         document.getElementById("start_sim").addEventListener("click", () => {
             startSim();
         });
-
-        const canvas = document.getElementById("gameWorld");
-        const ctx = canvas.getContext("2d");
-
-        var circle;
-        for (var i = 0; i < 50; i++) {
-            circle = new Circle(gameEngine, true);
-            gameEngine.addEntity(circle);
-        }
-        for (var i = 0; i < 5; i++) {
-            circle = new Circle(gameEngine, false);
-            gameEngine.addEntity(circle);
-        }
-        gameEngine.weakened = gameEngine.entities[0];
-        gameEngine.weakened.debug = true;
-        gameEngine.weakened.MaxSpeed *= 0.70;
-        gameEngine.weakened.color = "teal";
-
-        gameEngine.init(ctx);
-        gameEngine.start();
     }
+}
+
+/**
+ * Load simulation entities and begin initial run.
+ */
+function loadSim() {
+    const canvas = document.getElementById("gameWorld");
+    const ctx = canvas.getContext("2d");
+
+    var circle;
+    for (var i = 0; i < 50; i++) {
+        circle = new Circle(gameEngine, true);
+        gameEngine.addEntity(circle);
+    }
+    for (var i = 0; i < 5; i++) {
+        circle = new Circle(gameEngine, false);
+        gameEngine.addEntity(circle);
+    }
+    gameEngine.weakened = gameEngine.entities[0];
+    gameEngine.weakened.debug = true;
+    gameEngine.weakened.MaxSpeed *= 0.70;
+    gameEngine.weakened.color = "teal";
+
+    gameEngine.init(ctx);
+    gameEngine.start();
 }
 
 /**
@@ -72,6 +77,7 @@ function bindElements() {
  */
 window.onload = () => {
     bindElements();
+    if (!window.location.pathname.includes('graphs')) loadSim();
 };
 
 /**
@@ -257,7 +263,7 @@ function parseResponse(array) {
 
     console.log('Raw Response:');
     console.log(array); //raw response from server
-    console.log(JSON.stringify(array).length);
+    console.log('Response package size:' + JSON.stringify(array).length);
 
     if (document.getElementById('verboseResponse').checked) {
         console.log('Parsed Response:');
