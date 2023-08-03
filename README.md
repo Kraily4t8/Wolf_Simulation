@@ -39,7 +39,7 @@ The shape of data recorded and uploaded is as follows:
 
 Notes:
 * For examples on how to interact with the data shape, basic interaction with the data can be seen in the print functions at the end of *main*.
-* If run through a website instead of locally, it's likely the server connection will fail.
+* If run through a website instead of locally, browser security measures must be overriden.
 
 # Data Retrieval
 To retrieve data from the database, enter values in each field to find matching data and click *Get Data*.
@@ -56,7 +56,7 @@ Graphing of data is available at the `/graphs` page. This only works when locall
 * Minimum Distance to Weakest Sheep: The average distance from the weakest sheep to the closest wolf at each recorded time step.
 
 # Known Issues
-* Sometimes the simulation will "stick" on first run or behave oddly. Refreshing the page will fix it.
+* Database connectivity is done in a way browsers don't like, but can function if browser security is bypassed.
 
 # Resources
 * <a href="https://github.com/algorithm0r/WolfPack">WolfPack</a>: Base simulation this project forks from.
