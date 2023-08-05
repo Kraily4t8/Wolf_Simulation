@@ -20,6 +20,8 @@ function graphResponse() {
     plotWeakDistance(results);
 
     console.log('Graphs generated.')
+    // saveJSON(results, 'results.json');
+    // console.log('Results downloaded.')
 }
 
 /**
@@ -424,4 +426,18 @@ function plotWeakDistance(results) {
     };
 
     params.weakChart = Plotly.newPlot('weakChart', [trace], layout);
+}
+
+function saveJSON(result, fileName) {
+    const jsonContent = JSON.stringify(result);
+    const blob = new Blob([jsonContent], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName;
+    a.click();
+
+    // Clean up the URL object to free up resources
+    URL.revokeObjectURL(url);
 }
